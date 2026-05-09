@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scott Penman | Design Technologist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #111111;
+    --fg-mid: #555555;
+    --fg-faint: #999999;
+    --rule: #e8e8e8;
+    --accent: #0a0a0a;
+    --tag-bg: #f0f0f0;
+    --tag-fg: #444444;
+    --tile-gap: 2px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f0f0f;
+      --fg: #ededed;
+      --fg-mid: #aaaaaa;
+      --fg-faint: #555555;
+      --rule: #222222;
+      --accent: #ededed;
+      --tag-bg: #1e1e1e;
+      --tag-fg: #aaaaaa;
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 2.5rem 0 0;
+    margin-bottom: 3.5rem;
+  }
+
+  .nav-name {
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--fg);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.85rem;
+    color: var(--fg-mid);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .nav-links a:hover { color: var(--fg); }
+
+  /* ── BIO ── */
+  .bio {
+    max-width: 640px;
+    margin-bottom: 4rem;
+  }
+
+  .bio-name {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+  }
+
+  .bio p {
+    font-size: 0.95rem;
+    color: var(--fg-mid);
+    line-height: 1.75;
+  }
+
+  .bio p + p { margin-top: 0.8rem; }
+
+  .bio a {
+    color: var(--fg);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+
+  /* ── PROJECT GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--tile-gap);
+    margin-bottom: 5rem;
+  }
+
+  /* ── TILE ── */
+  .tile {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--tag-bg);
+    display: block;
+    text-decoration: none;
+  }
+
+  /* The image fills the tile */
+  .tile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                filter 0.4s ease;
+    filter: saturate(1);
+  }
+
+  /* Placeholder when no image — draws a subtle grid pattern */
+  .tile-placeholder {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--tag-bg);
+    overflow: hidden;
+  }
+
+  .tile-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--rule) 1px, transparent 1px),
+      linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.7;
+  }
+
+  /* Crosshair mark in center */
+  .tile-placeholder::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--fg-faint);
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+
+  /* ── HOVER OVERLAY ── */
+  .tile-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.25rem;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,0.82) 0%,
+      rgba(0,0,0,0.38) 50%,
+      rgba(0,0,0,0) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Scan-line effect on overlay */
+  .tile-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(255,255,255,0.015) 3px,
+      rgba(255,255,255,0.015) 4px
+    );
+    pointer-events: none;
+  }
+
+  .tile-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 1.3;
+    margin-bottom: 0.4rem;
+    transform: translateY(6px);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .tile-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease 0.05s, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.05s;
+  }
+
+  .tile-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .tile-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    flex-shrink: 0;
+  }
+
+  .tile-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.06em;
+  }
+
+  /* Corner bracket — appears on hover */
+  .tile-bracket {
+    position: absolute;
+    top: 0.8rem;
+    right: 0.8rem;
+    width: 14px;
+    height: 14px;
+    opacity: 0;
+    transition: opacity 0.25s ease 0.1s;
+  }
+
+  .tile-bracket::before,
+  .tile-bracket::after {
+    content: '';
+    position: absolute;
+    background: rgba(255,255,255,0.6);
+  }
+
+  .tile-bracket::before {
+    top: 0; right: 0;
+    width: 1px; height: 10px;
+  }
+
+  .tile-bracket::after {
+    top: 0; right: 0;
+    width: 10px; height: 1px;
+  }
+
+  /* ── HOVER STATES ── */
+  .tile:hover .tile-overlay {
+    opacity: 1;
+  }
+
+  .tile:hover .tile-img {
+    transform: scale(1.04);
+    filter: saturate(1.12);
+  }
+
+  .tile:hover .tile-title {
+    transform: translateY(0);
+  }
+
+  .tile:hover .tile-meta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tile:hover .tile-bracket {
+    opacity: 1;
+  }
+
+  /* Placeholder hover — grid animates */
+  .tile:hover .tile-placeholder::before {
+    animation: grid-drift 4s linear infinite;
+  }
+
+  @keyframes grid-drift {
+    from { background-position: 0 0; }
+    to { background-position: 24px 24px; }
+  }
+
+  /* ── FOOTER NAV ── */
+  .footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0 3rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .footer-name {
+    font-size: 0.82rem;
+    color: var(--fg-faint);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.82rem;
+    color: var(--fg-faint);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover { color: var(--fg); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    body { padding: 0 1.2rem; }
+    nav { margin-bottom: 2.5rem; }
+    .nav-links { gap: 1.2rem; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 380px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="#">Scott Penman</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#">CV</a></li>
+    <li><a href="#">Writing</a></li>
+  </ul>
+</nav>
+
+<section class="bio" id="about">
+  <p class="bio-name">Scott Penman</p>
+  <p>I’m a multi-disciplinary designer and researcher interested in architecture, emerging tech, and computational models of human creativity. After training as an architect in Mississippi and working on nationally-recognized projects in Arkansas, I came to MIT to pursue a career in computational design and emerging tech research, researching everything from futuristic aquaria to ambient intelligent lighting agents.</p>
+  <p>In my current role with <a href="https://www.sasaki.com">Sasaki Strategies</a>, I work with data analysts, software developers, and other tech specialists to develop design-focused tools and workflows for all of Sasaki’s design disciplines.</p>
+</section>
+
+<div class="grid" id="projectGrid"></div>
+
+<footer class="footer-row">
+  <span class="footer-name">S</span>
+  <ul class="footer-links">
+    <li><a href="https://www.instagram.com/scottdpenman">Instagram</a></li>
+    <li><a href="https://www.linkedin.com/in/scott-penman-43aab5192/">LinkedIn</a></li>
+    <li><a href="https://github.com/scottdpenman">GitHub</a></li>
+  </ul>
+</footer>
+
+<script>
+const projects = [
+  {
+    title: "Toward Computational Play",
+    type: "Research",
+    year: "2023",
+    img: "https://unoptimised.wordpress.com/wp-content/uploads/2019/12/tcp-square-1.jpg",
+    color: "#c8d8c0",
+    url: "project-toward-computational-play.html"
+  },
+  {
+    title: "Origami Chair",
+    type: "Furniture",
+    year: "2010",
+    img: "https://unoptimised.wordpress.com/wp-content/uploads/2019/12/origamic-chair-square-1.jpg",
+    color: "#b8c8d8",
+    url: "project-origami-chair.html"
+  },
+  {
+    title: "Garvan Tree House",
+    type: "Architecture",
+    year: "2015",
+    img: "https://unoptimised.wordpress.com/wp-content/uploads/2019/12/garvan-square-1.jpg",
+    color: "#d4c4b4",
+    url: "project-garvan-tree-house.html"
+  },
+  {
+    title: "Smithville",
+    type: "Urban Design",
+    year: "2012",
+    img: "https://unoptimised.wordpress.com/wp-content/uploads/2019/12/smithville-square-1.jpg",
+    color: "#c4b8d4",
+    url: "project-smithville.html"
+  },
+  {
+    title: "Envisioning the Future Aquarium",
+    type: "Speculative Design",
+    year: "2017",
+    img: "https://unoptimised.wordpress.com/wp-content/uploads/2019/12/neaq-square-2.jpg",
+    color: "#d8c8b8",
+    url: "project-future-aquarium.html"
+  },
+  {
+    title: "Adaptive Dynamics",
+    type: "Hardware Prototype",
+    year: "2018",
+    img: "https://unoptimised.wordpress.com/wp-content/uploads/2019/12/adaptive-dynamics-square-2.jpg",
+    color: "#b8d4c8",
+    url: "project-adaptive-dynamics.html"
+  },
+  {
+    title: "Armenia",
+    type: "Architecture",
+    year: "2011",
+    img: "https://unoptimised.wordpress.com/wp-content/uploads/2019/12/armenia-square-2.jpg",
+    color: "#d0c8b8",
+    url: "project-armenia.html"
+  },
+  {
+    title: "Flippin Elementary School",
+    type: "Architecture",
+    year: "2014",
+    img: "https://unoptimised.wordpress.com/wp-content/uploads/2019/12/flippin-square-1.jpg",
+    color: "#bcc8d8",
+    url: "project-flippin-elementary.html"
+  },
+  {
+    title: "Slow Computing",
+    type: "Research",
+    year: "2016",
+    img: "https://unoptimised.wordpress.com/wp-content/uploads/2019/12/slow-computing-square-2.jpg",
+    color: "#c8d0c0",
+    url: "project-slow-computing.html"
+  },
+  {
+    title: "Connected Lighting for a Caring City",
+    type: "Research",
+    year: "2019",
+    img: "https://unoptimised.wordpress.com/wp-content/uploads/2019/12/philips-square-2.jpg",
+    color: "#d8c0c0",
+    url: "project-connected-lighting.html"
+  },
+  {
+    title: "Site Sensor Kit",
+    type: "Hardware / IoT",
+    year: "2021",
+    img: null,
+    color: "#c0ccd8",
+    url: "project-site-sensor-kit.html"
+  },
+  {
+    title: "Precedent Finder",
+    type: "ML / Software",
+    year: "2020",
+    img: null,
+    color: "#d4ccc0",
+    url: "project-precedent-finder.html"
+  },
+];
+
+const grid = document.getElementById('projectGrid');
+
+projects.forEach(p => {
+  const tile = document.createElement('a');
+  tile.className = 'tile';
+  tile.href = p.url || '#';
+  tile.setAttribute('aria-label', p.title);
+
+  if (p.img) {
+    tile.innerHTML = `
+      <img class="tile-img" src="${p.img}" alt="${p.title}" loading="lazy">
+      <div class="tile-overlay">
+        <div class="tile-bracket"></div>
+        <div class="tile-title">${p.title}</div>
+        <div class="tile-meta">
+          <span class="tile-type">${p.type}</span>
+          <span class="tile-dot"></span>
+          <span class="tile-year">${p.year}</span>
+        </div>
+      </div>
+    `;
+  } else {
+    tile.innerHTML = `
+      <div class="tile-placeholder" style="background:${p.color}20;"></div>
+      <div class="tile-overlay">
+        <div class="tile-bracket"></div>
+        <div class="tile-title">${p.title}</div>
+        <div class="tile-meta">
+          <span class="tile-type">${p.type}</span>
+          <span class="tile-dot"></span>
+          <span class="tile-year">${p.year}</span>
+        </div>
+      </div>
+    `;
+    // Color tint the placeholder
+    tile.querySelector('.tile-placeholder').style.background = p.color + '30';
+  }
+
+  grid.appendChild(tile);
+});
+</script>
+</body>
+</html>
