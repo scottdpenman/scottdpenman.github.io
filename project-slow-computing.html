@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Toward Computational Play — Scott Penman</title>
+<title>Slow Computing — Scott Penman</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
@@ -37,7 +37,6 @@
     line-height: 1.6;
   }
 
-  /* ── NAV ── */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -79,12 +78,11 @@
 
   .nav-back:hover .nav-back-arrow { transform: translateX(-2px); }
 
-  /* ── HERO ── */
   .hero {
     width: 100%;
     aspect-ratio: 16 / 7;
     overflow: hidden;
-    margin-top: 3.2rem; /* nav height */
+    margin-top: 3.2rem;
     background: var(--tag-bg);
     position: relative;
   }
@@ -96,12 +94,10 @@
     display: block;
   }
 
-  /* Placeholder grid for hero when no image */
   .hero-placeholder {
     width: 100%;
     height: 100%;
     position: relative;
-    background: #c8d8c020;
     overflow: hidden;
   }
 
@@ -127,14 +123,12 @@
     color: var(--fg-faint);
   }
 
-  /* ── PAGE BODY ── */
   .page {
     max-width: 680px;
     margin: 0 auto;
     padding: 0 2rem;
   }
 
-  /* ── PROJECT HEADER ── */
   .project-header {
     padding: 2.8rem 0 2rem;
     border-bottom: 1px solid var(--rule);
@@ -159,14 +153,11 @@
     margin-bottom: 1.8rem;
   }
 
-  /* Data points row */
   .project-meta {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 1.2rem 2rem;
   }
-
-  .meta-item {}
 
   .meta-label {
     font-family: 'DM Mono', monospace;
@@ -185,12 +176,10 @@
     line-height: 1.4;
   }
 
-  /* ── NARRATIVE BODY ── */
   .narrative {
     padding-bottom: 5rem;
   }
 
-  /* Text block */
   .block-text {
     margin-bottom: 2rem;
   }
@@ -211,7 +200,6 @@
     text-decoration-thickness: 1px;
   }
 
-  /* Pull quote / callout */
   .block-callout {
     margin: 2.5rem 0;
     padding: 0 0 0 1.2rem;
@@ -226,7 +214,6 @@
     font-weight: 300;
   }
 
-  /* Full-width image */
   .block-img-full {
     margin: 2.5rem -2rem;
   }
@@ -237,7 +224,6 @@
     display: block;
   }
 
-  /* Contained image (narrower, centered) */
   .block-img {
     margin: 2.5rem 0;
   }
@@ -248,7 +234,6 @@
     display: block;
   }
 
-  /* Two-up image pair */
   .block-img-pair {
     margin: 2.5rem 0;
     display: grid;
@@ -264,7 +249,6 @@
     object-fit: cover;
   }
 
-  /* Three-up */
   .block-img-trio {
     margin: 2.5rem 0;
     display: grid;
@@ -280,7 +264,6 @@
     object-fit: cover;
   }
 
-  /* Image captions */
   .img-caption {
     margin-top: 0.6rem;
     font-family: 'DM Mono', monospace;
@@ -291,7 +274,6 @@
     line-height: 1.5;
   }
 
-  /* Placeholder image blocks */
   .img-placeholder {
     background: var(--tag-bg);
     position: relative;
@@ -321,21 +303,18 @@
     color: var(--fg-faint);
   }
 
-  /* Pair / trio placeholders need their own aspect ratio */
   .block-img-pair .img-placeholder,
   .block-img-trio .img-placeholder {
     aspect-ratio: unset;
     min-height: 160px;
   }
 
-  /* Section divider */
   .block-divider {
     margin: 3rem 0;
     height: 1px;
     background: var(--rule);
   }
 
-  /* ── NEXT PROJECT ── */
   .next-project {
     border-top: 1px solid var(--rule);
     padding: 2rem 0 3.5rem;
@@ -366,7 +345,6 @@
 
   .next-title:hover { opacity: 0.6; }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 600px) {
     .page { padding: 0 1.2rem; }
     .block-img-full { margin: 2rem -1.2rem; }
@@ -379,7 +357,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a class="nav-name" href="index.html">Scott Penman</a>
   <a class="nav-back" href="index.html">
@@ -388,20 +365,18 @@
   </a>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
-  <img src="https://scottpenman.work/wp-content/uploads/2018/01/penman_11-e1516192627906.jpg?w=1568" alt="Autonomous drawing machine in operation">
+  <img src="https://unoptimised.wordpress.com/wp-content/uploads/2019/12/slow-computing-square-2.jpg" alt="Slow Computing drawing machine">
 </div>
 
-<!-- PROJECT HEADER -->
 <div class="page">
   <header class="project-header">
     <div class="project-type">Research / Fabrication</div>
-    <h1 class="project-title">Toward Computational Play</h1>
+    <h1 class="project-title">Slow Computing</h1>
     <div class="project-meta">
       <div class="meta-item">
         <div class="meta-label">Year</div>
-        <div class="meta-value">2015–2018</div>
+        <div class="meta-value">Fall 2016</div>
       </div>
       <div class="meta-item">
         <div class="meta-label">Role</div>
@@ -409,113 +384,48 @@
       </div>
       <div class="meta-item">
         <div class="meta-label">Context</div>
-        <div class="meta-value">MIT — Master's Thesis</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">Advisor</div>
-        <div class="meta-value">Terry Knight</div>
+        <div class="meta-value">MIT — Projects in Computational Making / Professor Terry Knight</div>
       </div>
     </div>
   </header>
 
-  <!-- NARRATIVE -->
   <div class="narrative">
 
     <div class="block-text">
-      <p>Design thinking is playful — but that quality has largely resisted computational modeling. Traditional AI approaches to creativity optimize toward solutions; designers, by contrast, wander. They explore paths that seem unproductive, revisit decisions already made, and treat constraints as material rather than boundary. This thesis asks whether a computational system can be built that genuinely plays — not as metaphor, but as method.</p>
+      <p>Computational processes are almost always invisible. They execute at speeds orders of magnitude beyond human perception, producing outputs — drawings, models, simulations — that arrive fully formed, with no trace of the steps that generated them. Slow Computing proposes a different approach: a drawing machine that externalizes each step of a shape grammar computation, executing at a speed calibrated to human attention rather than processor efficiency.</p>
     </div>
 
     <div class="block-img-full">
-      <img src="https://scottpenman.work/wp-content/uploads/2019/11/tcp-exploded-axon-ppt-gradient-3.jpg?w=1024" alt="Exploded axonometric of the drawing machine">
-      <div class="img-caption">Exploded axonometric of the autonomous drawing machine — sensor array, motion platform, and dual pen mechanism.</div>
+      <div class="img-placeholder" data-label="drawing machine in operation"></div>
     </div>
 
     <div class="block-text">
-      <p>The research is grounded in an autonomous drawing machine: a physical device that operates through an iterative loop of plotting, machine vision, and computational decision-making. Rather than executing a predetermined output, the machine reads what it has drawn, evaluates it against its own internal criteria, and decides what to do next. Each pass through the cycle is both a response to and a departure from the one before it.</p>
-    </div>
-
-    <div class="block-img">
-      <img src="https://scottpenman.work/wp-content/uploads/2019/11/tcp-img_5768-edit.jpg?w=1024" alt="Drawing machine detail">
-      <div class="img-caption">The machine mid-session. The camera mounted above reads the current state of the drawing before each computational step.</div>
-    </div>
-
-    <div class="block-img">
-      <img src="https://scottpenman.work/wp-content/uploads/2019/11/tcp-machine-setup_abstract-cycle_2.jpg?w=1024" alt="Abstract diagram of the machine cycle">
-      <div class="img-caption">Diagram of the iterative plot–capture–compute cycle that drives each drawing session.</div>
-    </div>
-
-    <div class="block-text">
-      <p>A dual-pen mechanism allows the machine to draw and erase within the same session, enabling layered, revisable marks rather than purely additive output. The drawing logic is based on Shape Grammar rules — a formal system for describing spatial relationships — adapted to allow the machine to recognize, apply, and selectively undo transformations as it works.</p>
-    </div>
-
-    <div class="block-img">
-      <img src="https://scottpenman.work/wp-content/uploads/2019/11/tcp-erase-draw-animation.gif?w=711" alt="Animation of the erase-draw cycle">
-      <div class="img-caption">The draw/erase cycle in operation. The machine can revise marks rather than simply accumulate them.</div>
-    </div>
-
-    <div class="block-img">
-      <img src="https://scottpenman.work/wp-content/uploads/2019/11/tcp-triangle-computation.jpg?w=1024" alt="Triangle computation diagram">
-      <div class="img-caption">Shape Grammar rule application — the machine identifies candidate shapes in the current drawing and selects a transformation.</div>
+      <p>The machine draws one step at a time, pausing between operations at intervals drawn from a randomized speed profile. The effect is something closer to watching a hand draw than a machine plot — there is anticipation, hesitation, and rhythm. The tradition being invoked is that of Kandinsky and Klee, for whom gesture and trace were the fundamental subjects of visual inquiry. Here the gesture belongs to the algorithm, but its legibility remains a human concern.</p>
     </div>
 
     <div class="block-callout">
-      <p>Four properties define computational play as proposed here: multimodal, generative, iterative, and autotelic. The last of these is the most consequential — and the least familiar.</p>
+      <p>When computation moves at the pace of attention, the process becomes as visible as the result.</p>
     </div>
 
     <div class="block-img-pair">
-      <div>
-        <img src="https://scottpenman.work/wp-content/uploads/2019/11/tcp-first-stepped-drawing-animation-2.gif?w=540" alt="First stepped drawing animation" style="width:100%;display:block;">
-      </div>
-      <div>
-        <img src="https://scottpenman.work/wp-content/uploads/2019/11/tcp-animation.gif?w=540" alt="Drawing animation" style="width:100%;display:block;">
-      </div>
+      <div class="img-placeholder" data-label="shape grammar step sequence"></div>
+      <div class="img-placeholder" data-label="output drawing detail"></div>
     </div>
-    <div class="img-caption">Two drawing sessions showing different emergent outputs from the same rule set.</div>
 
     <div class="block-text">
-      <p>Autotelism — acting for its own sake rather than toward an external goal — is a condition familiar in human play but largely absent from computational systems. The thesis proposes a model in which the machine's behavior is governed by two independent variables: the objective number of available moves at any point in the drawing, and the machine's own internal interest level in continuing. Plotting these against each other produces a decision space in which the machine can become engaged, bored, or absorbed — and act accordingly.</p>
+      <p>Legibility is the central design value here — not legibility of the final drawing, but of the computational logic that produced it. By slowing down the execution and making each rule application visible, the project argues that clarity of process is itself a form of design quality, one that standard computational tools systematically hide.</p>
     </div>
 
     <div class="block-img">
-      <img src="https://scottpenman.work/wp-content/uploads/2019/11/tcp-small-triangle-animation.gif?w=711" alt="Small triangle drawing animation">
-      <div class="img-caption">The machine working through a constrained drawing problem, demonstrating iterative revision behavior.</div>
+      <div class="img-placeholder" data-label="completed drawing"></div>
     </div>
-
-    <div class="block-img-pair">
-      <div>
-        <img src="https://scottpenman.work/wp-content/uploads/2019/11/tcp-autotelism-graph-attribution.jpg?w=1024" alt="Autotelism graph — attribution" style="width:100%;display:block;">
-      </div>
-      <div>
-        <img src="https://scottpenman.work/wp-content/uploads/2019/11/tcp-autotelism-graph-predictability.jpg?w=1024" alt="Autotelism graph — predictability" style="width:100%;display:block;">
-      </div>
-    </div>
-    <div class="img-caption">The autotelic decision graph: available moves vs. interest level. Behavior is unpredictable in outcome but fully attributable in logic.</div>
-
-    <div class="block-img">
-      <img src="https://scottpenman.work/wp-content/uploads/2019/11/tcp-autotelism-graph-color.jpg?w=1024" alt="Autotelism graph in color">
-      <div class="img-caption">Color-mapped version of the autotelic state space, showing regions of engagement, disengagement, and transition.</div>
-    </div>
-
-    <div class="block-divider"></div>
-
-    <div class="block-text">
-      <p>The drawings produced by the machine are interesting less as artifacts than as evidence. They show what a system looks like when it is genuinely exploring rather than optimizing — making choices that are unpredictable in outcome but entirely explainable in logic. That combination, the thesis argues, is what distinguishes playful behavior from random behavior, and it is what makes play a productive model for the next generation of design computation tools.</p>
-    </div>
-
-    <div class="block-img-trio">
-      <img src="https://scottpenman.work/wp-content/uploads/2019/11/tcp-triangle-drawing-1.jpg?w=1024" alt="Triangle drawing 1" style="width:100%;display:block;aspect-ratio:1/1;object-fit:cover;">
-      <img src="https://scottpenman.work/wp-content/uploads/2019/11/tcp-triangle-drawing-2.jpg?w=1024" alt="Triangle drawing 2" style="width:100%;display:block;aspect-ratio:1/1;object-fit:cover;">
-      <img src="https://scottpenman.work/wp-content/uploads/2019/11/tcp-triangle-drawing-3.jpg?w=1024" alt="Triangle drawing 3" style="width:100%;display:block;aspect-ratio:1/1;object-fit:cover;">
-    </div>
-    <div class="img-caption">Three drawings produced by the machine across separate sessions using the same underlying rule set.</div>
 
   </div>
 </div>
 
-<!-- NEXT PROJECT -->
 <div class="next-project">
   <span class="next-label">Next</span>
-  <a class="next-title" href="project-origami-chair.html">Origami Chair →</a>
+  <a class="next-title" href="project-connected-lighting.html">Connected Lighting →</a>
 </div>
 
 </body>

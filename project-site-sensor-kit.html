@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Site Sensor Kit — Scott Penman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #111111;
+    --fg-mid: #555555;
+    --fg-faint: #999999;
+    --rule: #e8e8e8;
+    --tag-bg: #f4f4f4;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f0f0f;
+      --fg: #ededed;
+      --fg-mid: #aaaaaa;
+      --fg-faint: #555555;
+      --rule: #222222;
+      --tag-bg: #1a1a1a;
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 2rem;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav-name {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .nav-back {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 300;
+    color: var(--fg-faint);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.15s;
+  }
+
+  .nav-back:hover { color: var(--fg); }
+
+  .nav-back-arrow {
+    font-size: 0.8rem;
+    transition: transform 0.15s;
+  }
+
+  .nav-back:hover .nav-back-arrow { transform: translateX(-2px); }
+
+  .hero {
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    overflow: hidden;
+    margin-top: 3.2rem;
+    background: var(--tag-bg);
+    position: relative;
+  }
+
+  .hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-placeholder {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #c0ccd830;
+    overflow: hidden;
+  }
+
+  .hero-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--rule) 1px, transparent 1px),
+      linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .hero-placeholder::after {
+    content: 'hero image';
+    position: absolute;
+    bottom: 1.5rem;
+    left: 2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+  }
+
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .project-header {
+    padding: 2.8rem 0 2rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 2.8rem;
+  }
+
+  .project-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    margin-bottom: 0.7rem;
+  }
+
+  .project-title {
+    font-size: 1.6rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 1.8rem;
+  }
+
+  .project-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1.2rem 2rem;
+  }
+
+  .meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    margin-bottom: 0.25rem;
+  }
+
+  .meta-value {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--fg);
+    line-height: 1.4;
+  }
+
+  .narrative {
+    padding-bottom: 5rem;
+  }
+
+  .block-text {
+    margin-bottom: 2rem;
+  }
+
+  .block-text p {
+    font-size: 0.92rem;
+    color: var(--fg-mid);
+    line-height: 1.8;
+  }
+
+  .block-text p + p {
+    margin-top: 1em;
+  }
+
+  .block-text a {
+    color: var(--fg);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+
+  .block-callout {
+    margin: 2.5rem 0;
+    padding: 0 0 0 1.2rem;
+    border-left: 1px solid var(--fg);
+  }
+
+  .block-callout p {
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--fg);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .block-img-full {
+    margin: 2.5rem -2rem;
+  }
+
+  .block-img-full img,
+  .block-img-full .img-placeholder {
+    width: 100%;
+    display: block;
+  }
+
+  .block-img {
+    margin: 2.5rem 0;
+  }
+
+  .block-img img,
+  .block-img .img-placeholder {
+    width: 100%;
+    display: block;
+  }
+
+  .block-img-pair {
+    margin: 2.5rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .block-img-pair img,
+  .block-img-pair .img-placeholder {
+    width: 100%;
+    display: block;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+  }
+
+  .block-img-trio {
+    margin: 2.5rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+  }
+
+  .block-img-trio img,
+  .block-img-trio .img-placeholder {
+    width: 100%;
+    display: block;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+
+  .img-caption {
+    margin-top: 0.6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 300;
+    color: var(--fg-faint);
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+  }
+
+  .img-placeholder {
+    background: var(--tag-bg);
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+  }
+
+  .img-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--rule) 1px, transparent 1px),
+      linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .img-placeholder[data-label]::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 0.6rem;
+    left: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+  }
+
+  .block-img-pair .img-placeholder,
+  .block-img-trio .img-placeholder {
+    aspect-ratio: unset;
+    min-height: 160px;
+  }
+
+  .block-divider {
+    margin: 3rem 0;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .next-project {
+    border-top: 1px solid var(--rule);
+    padding: 2rem 0 3.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    max-width: 680px;
+    margin: 0 auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .next-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+  }
+
+  .next-title {
+    font-size: 0.9rem;
+    color: var(--fg);
+    text-decoration: none;
+    font-weight: 400;
+    transition: opacity 0.15s;
+  }
+
+  .next-title:hover { opacity: 0.6; }
+
+  @media (max-width: 600px) {
+    .page { padding: 0 1.2rem; }
+    .block-img-full { margin: 2rem -1.2rem; }
+    .block-img-pair { grid-template-columns: 1fr; }
+    .block-img-trio { grid-template-columns: 1fr 1fr; }
+    .project-title { font-size: 1.3rem; }
+    .next-project { padding-left: 1.2rem; padding-right: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="index.html">Scott Penman</a>
+  <a class="nav-back" href="index.html">
+    <span class="nav-back-arrow">←</span>
+    all work
+  </a>
+</nav>
+
+<div class="hero">
+  <div class="hero-placeholder"></div>
+</div>
+
+<div class="page">
+  <header class="project-header">
+    <div class="project-type">Hardware / IoT</div>
+    <h1 class="project-title">Site Sensor Kit</h1>
+    <div class="project-meta">
+      <div class="meta-item">
+        <div class="meta-label">Year</div>
+        <div class="meta-value">2021</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Designer, Engineer</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Context</div>
+        <div class="meta-value">Sasaki Strategies</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="narrative">
+
+    <div class="block-text">
+      <p>Design teams routinely make consequential decisions about a site based on a single visit, a handful of photos, and whatever published data exists for the area. The Site Sensor Kit was built to fill the gap between that brief site visit and the longer design development process — providing continuous, multi-dimensional environmental data from a location that would otherwise go unmonitored.</p>
+    </div>
+
+    <div class="block-img">
+      <div class="img-placeholder" data-label="sensor kit — deployed"></div>
+    </div>
+
+    <div class="block-text">
+      <p>The kit is a deployable IoT system combining sensors for temperature, humidity, light levels, sound, and occupancy into a single ruggedized enclosure that can be installed quickly and left in the field. Data streams continuously to a cloud dashboard, where the design team can visualize environmental conditions across any time period and identify patterns — daily rhythms, seasonal variation, peak usage moments — that inform design decisions with a granularity that a site visit cannot provide.</p>
+    </div>
+
+    <div class="block-callout">
+      <p>A site visit tells you what a place looks like. A sensor kit tells you how it behaves.</p>
+    </div>
+
+    <div class="block-img-pair">
+      <div class="img-placeholder" data-label="sensor enclosure detail"></div>
+      <div class="img-placeholder" data-label="dashboard — data visualization"></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="next-project">
+  <span class="next-label">Next</span>
+  <a class="next-title" href="project-precedent-finder.html">Precedent Finder →</a>
+</div>
+
+</body>
+</html>
